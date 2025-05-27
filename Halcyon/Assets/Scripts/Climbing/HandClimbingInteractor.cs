@@ -8,7 +8,7 @@ public class HandClimbingInteractor : MonoBehaviour
 {
     [SerializeField] private XRBaseInteractor nearFarInteractor;
     [SerializeField] private ClimbProvider climbProvider;
-    [SerializeField] private float maxEnergy = 100, energyConsumptionRate = 5;
+    [SerializeField] private float energyConsumptionRate = 5;
     [SerializeField] private float minEnergyToClimb = 5f;
 
     private float m_CurrentEnergy;
@@ -25,12 +25,12 @@ public class HandClimbingInteractor : MonoBehaviour
 
     private void Update()
     {
-        // if (m_IsClimbing)
-        // {
-        //     ConsumeEnergy();
-        //     if (!hasEnoughEnergy(energyConsumptionRate))
-        //         ReleaseGrip();
-        // }
+        if (m_IsClimbing)
+        {
+            ConsumeEnergy();
+            if (!hasEnoughEnergy(energyConsumptionRate))
+                ReleaseGrip();
+        }
     }
 
     private void TryStartClimbing(SelectEnterEventArgs arg0)
@@ -38,11 +38,11 @@ public class HandClimbingInteractor : MonoBehaviour
         if (!arg0.interactableObject.transform.TryGetComponent(out ClimbInteractable climbInteractable)) return;
         if (!climbInteractable.transform.TryGetComponent(out ClimbAttributes climbAttributes)) return;
 
-        // if (!hasEnoughEnergy(minEnergyToClimb))
-        // {
-        //     ReleaseGrip();
-        //     return;
-        // }
+        if (!hasEnoughEnergy(minEnergyToClimb))
+        {
+            ReleaseGrip();
+            return;
+        }
 
         m_IsClimbing = true;
         m_CurrentClimbInteractable = climbInteractable;
@@ -59,10 +59,10 @@ public class HandClimbingInteractor : MonoBehaviour
 
     private void ReleaseGrip()
     {
-        // if (nearFarInteractor.hasSelection && nearFarInteractor.firstInteractableSelected as ClimbInteractable == m_CurrentClimbInteractable)
-        // {
-        //     nearFarInteractor.interactionManager.SelectExit(nearFarInteractor as IXRSelectInteractor, m_CurrentClimbInteractable);
-        // }
+        if (nearFarInteractor.hasSelection && nearFarInteractor.firstInteractableSelected as ClimbInteractable == m_CurrentClimbInteractable)
+        {
+            nearFarInteractor.interactionManager.SelectExit(nearFarInteractor as IXRSelectInteractor, m_CurrentClimbInteractable);
+        }
 
         m_IsClimbing = false;
         m_CurrentClimbInteractable = null;

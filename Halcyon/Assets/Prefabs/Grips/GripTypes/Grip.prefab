@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1905336245295648031}
   - component: {fileID: 2903769228618147590}
   - component: {fileID: 3232471939452421287}
-  - component: {fileID: 4549256401385875184}
+  - component: {fileID: 7330626918780594116}
   m_Layer: 0
   m_Name: Grip
   m_TagString: Untagged
@@ -223,7 +223,7 @@ MonoBehaviour:
       m_AllowFreeYMovement: 1
       m_AllowFreeZMovement: 1
     m_Variable: {fileID: 0}
---- !u!114 &4549256401385875184
+--- !u!114 &7330626918780594116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,19 +232,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 100976727999450715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c83f12c537584f51b92c01f10d7090c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 49e0a5b5ff5540f5b14dd29d46faec22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransitionDuration: 0.125
-  m_InteractorSource: {fileID: 0}
+  m_InteractableSource: {fileID: 3232471939452421287}
   m_IgnoreHoverEvents: 0
+  m_IgnoreHoverPriorityEvents: 1
+  m_IgnoreFocusEvents: 1
   m_IgnoreSelectEvents: 0
-  m_IgnoreActivateEvents: 1
-  m_IgnoreUGUIHover: 0
-  m_IgnoreUGUISelect: 0
-  m_IgnoreXRInteractionEvents: 0
+  m_IgnoreActivateEvents: 0
   m_SelectClickAnimationMode: 1
-  m_ActivateClickAnimationMode: 1
+  m_ActivateClickAnimationMode: 0
   m_ClickAnimationDuration: 0.25
   m_ClickAnimationCurve:
     m_UseConstant: 1
