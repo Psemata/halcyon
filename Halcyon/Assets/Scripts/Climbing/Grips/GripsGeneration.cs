@@ -10,13 +10,17 @@ public class GripsGeneration : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float gripPercentage = 0.1f;
     [SerializeField]
-    private float minGripDistance = 0.5f;
+    private float minGripDistance = 1f;
     [SerializeField]
     private float maxGripDistance = 1f;
     [SerializeField]
     private float maxDistanceFromPath = 1.5f;
     [SerializeField, Range(0f, 1f)]
     private float keepFarGripPercentage = 0.05f;
+
+    [Header("Miscellaneous")]
+    [SerializeField]
+    private bool isSpawningTent = false;
 
     [Header("Pathfinding")]
     [SerializeField]
@@ -27,6 +31,14 @@ public class GripsGeneration : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField]
     private GameObject[] standardGripPrefabs;
+    [SerializeField]
+    private GameObject[] technicalGripPrefabs;
+    [SerializeField]
+    private GameObject[] temporaryGripPrefabs;
+    [SerializeField]
+    private GameObject gripParent;
+    [SerializeField]
+    private GameObject[] miscellaneousPrefabs;
 
     [Header("Debug")]
     [SerializeField]
@@ -45,6 +57,7 @@ public class GripsGeneration : MonoBehaviour
         mesh = meshFilter.sharedMesh;
 
         var grips = ClimbableZone();
+
         var graph = BuildGripGraph(grips, maxGripDistance);
 
         var startPositions = startingGrips.Where(g => g != null).Select(g => g.position).ToList();
@@ -55,26 +68,16 @@ public class GripsGeneration : MonoBehaviour
 
         foreach (var start in startPositions)
         {
-            int nbPaths = random.Next(1, 4);
-            var usedGoals = new HashSet<int>();
-
-            for (int i = 0; i < nbPaths && usedGoals.Count < endPositions.Count; i++)
+            for (int goalIdx = 0; goalIdx < endPositions.Count; goalIdx++)
             {
-                int goalIdx;
-                do
-                {
-                    goalIdx = random.Next(endPositions.Count);
-                } while (usedGoals.Contains(goalIdx) && usedGoals.Count < endPositions.Count);
-
-                usedGoals.Add(goalIdx);
                 var goal = endPositions[goalIdx];
-
                 var path = FindPathAStar(graph, start, goal);
-                if (path != null && path.Count > 1)
+                if (path != null && path.Count > 0)
                     debugger.paths.Add(path.Select(n => n.data.position).ToList());
             }
         }
 
+        Debug.Log(debugger.paths.Count + " paths found.");
         var filteredGrips = FilterGripsByPathProximity(
             grips,
             debugger.paths,
@@ -85,6 +88,44 @@ public class GripsGeneration : MonoBehaviour
         );
 
         debugger.SetClimbingGrips(filteredGrips);
+
+        foreach (var grip in filteredGrips)
+        {
+            if (grip.NearPath && Random.value < 0.001f && miscellaneousPrefabs.Length > 0 && isSpawningTent)
+            {
+                var misc = miscellaneousPrefabs[Random.Range(0, miscellaneousPrefabs.Length)];
+                Instantiate(misc, grip.position, misc.transform.rotation, this.transform);
+                continue;
+            }
+
+            float rand = Random.value;
+            GameObject prefab;
+
+            if (rand < 0.6f && standardGripPrefabs.Length > 0)
+            {
+                prefab = standardGripPrefabs[Random.Range(0, standardGripPrefabs.Length)];
+            }
+            else if (rand < 0.9f && technicalGripPrefabs.Length > 0)
+            {
+                prefab = technicalGripPrefabs[Random.Range(0, technicalGripPrefabs.Length)];
+            }
+            else if (temporaryGripPrefabs.Length > 0)
+            {
+                prefab = temporaryGripPrefabs[Random.Range(0, temporaryGripPrefabs.Length)];
+            }
+            else
+            {
+                continue;
+            }
+
+            var position = grip.position;
+            Quaternion rotation = Quaternion.LookRotation(grip.normal) * Quaternion.Euler(
+                Random.Range(0f, 360f),
+                Random.Range(0f, 360f),
+                Random.Range(0f, 360f)
+            );
+            Instantiate(prefab, position, rotation, gripParent.transform);
+        }
     }
 
     private List<GripNode> FindPathAStar(List<GripNode> nodes, Vector3 startPosition, Vector3 goalPosition)
@@ -156,7 +197,6 @@ public class GripsGeneration : MonoBehaviour
     private List<GripData> ClimbableZone()
     {
         var climbableZone = new List<GripData>();
-        AddingBaseGrips(climbableZone);
         var vertices = mesh.vertices;
 
         foreach (Vector3 triangle in ClimbableTriangles())
@@ -173,7 +213,12 @@ public class GripsGeneration : MonoBehaviour
                 climbableZone.Add(new GripData(transform.TransformPoint(baryPos), normal));
             }
         }
-        return FilterCloseGrips(climbableZone, minGripDistance);
+        AddingBaseGrips(climbableZone);
+
+        // Light filtering
+        climbableZone = FilterCloseGrips(climbableZone, minGripDistance);
+
+        return climbableZone;
     }
 
     private List<Vector3> ClimbableTriangles()
@@ -221,35 +266,57 @@ public class GripsGeneration : MonoBehaviour
         var filtered = new List<GripData>();
         foreach (var grip in grips)
         {
-            if (filtered.All(other => Vector3.Distance(grip.position, other.position) >= minDistance))
+            bool isStartOrEnd = startingGrips.Any(g => g != null && Vector3.Distance(g.position, grip.position) < 0.01f) || endingGrips.Any(g => g != null && Vector3.Distance(g.position, grip.position) < 0.01f);
+
+            if (isStartOrEnd || filtered.All(other => Vector3.Distance(grip.position, other.position) >= minDistance))
                 filtered.Add(grip);
         }
         return filtered;
     }
 
     private List<GripData> FilterGripsByPathProximity(
-        List<GripData> allGrips,
-        List<List<Vector3>> paths,
-        List<Vector3> startPositions,
-        List<Vector3> endPositions,
-        float maxDistanceFromPath = 1.5f,
-        float keepFarGripPercentage = 0.1f)
+    List<GripData> allGrips,
+    List<List<Vector3>> paths,
+    List<Vector3> startPositions,
+    List<Vector3> endPositions,
+    float maxDistanceFromPath = 1.5f,
+    float keepFarGripPercentage = 0.1f)
     {
-        var pathPoints = new HashSet<Vector3>(paths.SelectMany(p => p));
-        foreach (var s in startPositions) pathPoints.Add(s);
-        foreach (var e in endPositions) pathPoints.Add(e);
+        var pathPoints = new List<Vector3>();
+        foreach (var path in paths)
+            pathPoints.AddRange(path);
+        pathPoints.AddRange(startPositions);
+        pathPoints.AddRange(endPositions);
 
-        var closeGrips = allGrips.Where(grip =>
-            pathPoints.Any(pathPt => Vector3.Distance(grip.position, pathPt) <= maxDistanceFromPath)
-        ).ToList();
+        var closeGrips = new List<GripData>();
+        var farGrips = new List<GripData>();
 
-        var farGrips = allGrips.Except(closeGrips).ToList();
+        foreach (var originalGrip in allGrips)
+        {
+            var grip = originalGrip;
+            bool near = false;
+            for (int i = 0; i < pathPoints.Count; i++)
+            {
+                if (Vector3.Distance(grip.position, pathPoints[i]) <= maxDistanceFromPath)
+                {
+                    near = true;
+                    break;
+                }
+            }
+            grip.NearPath = near;
+            if (near)
+                closeGrips.Add(grip);
+            else
+                farGrips.Add(grip);
+        }
+
         int nbToKeep = Mathf.CeilToInt(farGrips.Count * keepFarGripPercentage);
         if (nbToKeep > 0)
         {
             var random = new System.Random();
             closeGrips.AddRange(farGrips.OrderBy(_ => random.Next()).Take(nbToKeep));
         }
+
         return closeGrips;
     }
 }

@@ -61,6 +61,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6416324405995212605}
+  - {fileID: 3275648601408313487}
+  - {fileID: 4691052385869773062}
+  - {fileID: 720991163875995115}
+  - {fileID: 6234611827156507682}
   m_Father: {fileID: 2031391873225480730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1982052086924725657
@@ -98,6 +102,7 @@ Transform:
   - {fileID: 8810869835001410704}
   - {fileID: 6983990698057851952}
   - {fileID: 1640283499150408874}
+  - {fileID: 1373845191968805728}
   m_Father: {fileID: 2031391873225480730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2635374147689759679
@@ -162,6 +167,161 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7673903686120199323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3525487435679548776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6234611827156507682}
+  m_Layer: 0
+  m_Name: EndingGrip5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6234611827156507682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525487435679548776}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -127.77, y: 143.9, z: 137.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5902151915461721950}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4388957469504909807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3275648601408313487}
+  m_Layer: 0
+  m_Name: EndingGrip2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3275648601408313487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4388957469504909807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 147.61, y: 107.51, z: 153.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5902151915461721950}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5066530701313184699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4691052385869773062}
+  m_Layer: 0
+  m_Name: EndingGrip3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4691052385869773062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066530701313184699}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 77.9, y: 169.46, z: 148.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5902151915461721950}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5981980750733143516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 720991163875995115}
+  m_Layer: 0
+  m_Name: EndingGrip4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &720991163875995115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5981980750733143516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.4, y: 189.36, z: 148.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5902151915461721950}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6290082708390209529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1290962565581342513}
+  m_Layer: 0
+  m_Name: GripsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1290962565581342513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290082708390209529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2031391873225480730}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6653416709825456622
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +356,7 @@ Transform:
   m_Children:
   - {fileID: 7673903686120199323}
   - {fileID: 5902151915461721950}
+  - {fileID: 1290962565581342513}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3090922993139950270
@@ -229,7 +390,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25086c37d95e94c97939c045bb2d3304, type: 2}
+  - {fileID: 2100000, guid: 2747e3112716d40109ed292179d00a27, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -263,15 +424,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58061b21a39494c84b4bb04b83bfa73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gripDensity: 2
-  gripPercentage: 0.1
-  minGripDistance: 0.5
-  maxGripDistance: 1
-  maxDistanceFromPath: 1.5
-  keepFarGripPercentage: 0.05
-  startingGrips: []
-  endingGrips: []
-  standardGripPrefabs: []
+  gripDensity: 3
+  gripPercentage: 0.6
+  minGripDistance: 1
+  maxGripDistance: 6
+  maxDistanceFromPath: 5
+  keepFarGripPercentage: 0.3
+  startingGrips:
+  - {fileID: 8318291102160156374}
+  - {fileID: 8364168942400343492}
+  - {fileID: 6284714330193671149}
+  - {fileID: 8810869835001410704}
+  - {fileID: 6983990698057851952}
+  - {fileID: 1640283499150408874}
+  - {fileID: 1373845191968805728}
+  endingGrips:
+  - {fileID: 6416324405995212605}
+  - {fileID: 3275648601408313487}
+  - {fileID: 4691052385869773062}
+  - {fileID: 720991163875995115}
+  - {fileID: 6234611827156507682}
+  standardGripPrefabs:
+  - {fileID: 5931433865204783991, guid: 14b0999149b164007b7a3476ed8bea4f, type: 3}
+  - {fileID: 2575390433277783375, guid: 4eaaa769084de47509e083d90d27c742, type: 3}
+  - {fileID: 1057014114646358876, guid: 9f8b4e5d1b4c24f6ca6483da3bc578f5, type: 3}
+  technicalGripPrefabs:
+  - {fileID: 5931433865204783991, guid: 3ceabdb682d034549a0ed31a5310a3e7, type: 3}
+  - {fileID: 2575390433277783375, guid: 66b417fcdb31347728de00375c13da88, type: 3}
+  - {fileID: 1057014114646358876, guid: a4ced12403e134652b205cc8ba3b2b42, type: 3}
+  temporaryGripPrefabs:
+  - {fileID: 5931433865204783991, guid: 8ef3c7b3a602b437a9ccaa91d8066fba, type: 3}
+  - {fileID: 2575390433277783375, guid: e0aad8e5f09de42b1b4918274248ab96, type: 3}
+  - {fileID: 1057014114646358876, guid: b6e8470e62b734b48a37eed198ef2dc5, type: 3}
+  gripParent: {fileID: 6290082708390209529}
   debugger: {fileID: 0}
 --- !u!1 &7206824622943680971
 GameObject:
@@ -392,6 +577,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 175.3, y: 22.7, z: 17.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7673903686120199323}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9135667195865370973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1373845191968805728}
+  m_Layer: 0
+  m_Name: StartGrip7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1373845191968805728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9135667195865370973}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 182.62, y: 30.03, z: 36.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

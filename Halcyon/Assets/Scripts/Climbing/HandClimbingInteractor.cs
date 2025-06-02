@@ -1,86 +1,66 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Climbing;
 
+[RequireComponent(typeof(XRBaseInteractor))]
 public class HandClimbingInteractor : MonoBehaviour
 {
     [SerializeField] private XRBaseInteractor nearFarInteractor;
-    [SerializeField] private ClimbProvider climbProvider;
-    [SerializeField] private float energyConsumptionRate = 5;
-    [SerializeField] private float minEnergyToClimb = 5f;
+    [SerializeField] private AudioClip climbClip;
 
-    private float m_CurrentEnergy;
-    private bool m_IsClimbing;
     private ClimbInteractable m_CurrentClimbInteractable;
-    private float m_ClimbingDifficulty;
 
     private void Awake()
     {
-        OnValidate();
+        if (!nearFarInteractor)
+            nearFarInteractor = GetComponent<XRBaseInteractor>();
+
         nearFarInteractor.selectEntered.AddListener(TryStartClimbing);
         nearFarInteractor.selectExited.AddListener(StopClimbing);
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (m_IsClimbing)
+        if (nearFarInteractor != null)
         {
-            ConsumeEnergy();
-            if (!hasEnoughEnergy(energyConsumptionRate))
-                ReleaseGrip();
+            nearFarInteractor.selectEntered.RemoveListener(TryStartClimbing);
+            nearFarInteractor.selectExited.RemoveListener(StopClimbing);
         }
     }
 
-    private void TryStartClimbing(SelectEnterEventArgs arg0)
+    private void TryStartClimbing(SelectEnterEventArgs args)
     {
-        if (!arg0.interactableObject.transform.TryGetComponent(out ClimbInteractable climbInteractable)) return;
-        if (!climbInteractable.transform.TryGetComponent(out ClimbAttributes climbAttributes)) return;
+        if (!TryGetClimbInteractable(args, out var climbInteractable, out _)) return;
 
-        if (!hasEnoughEnergy(minEnergyToClimb))
-        {
-            ReleaseGrip();
-            return;
-        }
-
-        m_IsClimbing = true;
         m_CurrentClimbInteractable = climbInteractable;
-        m_ClimbingDifficulty = climbAttributes.ClimbingDifficulty;
+
+        if (climbClip && AudioManager.Instance)
+            AudioManager.Instance.PlaySFX(climbClip, transform.position);
     }
 
-    private void StopClimbing(SelectExitEventArgs arg0)
+    private void StopClimbing(SelectExitEventArgs args)
     {
-        if (!arg0.interactableObject.transform.TryGetComponent(out ClimbInteractable climbInteractable)) return;
-        if (!climbInteractable.transform.TryGetComponent(out ClimbAttributes climbAttributes)) return;
+        if (!TryGetClimbInteractable(args, out var climbInteractable, out _)) return;
 
-        ReleaseGrip();
-    }
-
-    private void ReleaseGrip()
-    {
-        if (nearFarInteractor.hasSelection && nearFarInteractor.firstInteractableSelected as ClimbInteractable == m_CurrentClimbInteractable)
+        if (nearFarInteractor.hasSelection &&
+            nearFarInteractor.firstInteractableSelected as ClimbInteractable == m_CurrentClimbInteractable)
         {
-            nearFarInteractor.interactionManager.SelectExit(nearFarInteractor as IXRSelectInteractor, m_CurrentClimbInteractable);
+            nearFarInteractor.interactionManager.SelectExit(
+                nearFarInteractor as IXRSelectInteractor, m_CurrentClimbInteractable);
         }
 
-        m_IsClimbing = false;
         m_CurrentClimbInteractable = null;
     }
 
-    private bool hasEnoughEnergy(float threshold) => m_CurrentEnergy > threshold;
-
-    private void ConsumeEnergy()
+    private bool TryGetClimbInteractable(BaseInteractionEventArgs args, out ClimbInteractable interactable, out ClimbAttributes attributes)
     {
-        var energyDrain = energyConsumptionRate * m_ClimbingDifficulty * Time.deltaTime;
-        m_CurrentEnergy = Mathf.Max(0f, m_CurrentEnergy - energyDrain);
-    }
-
-    private void OnValidate()
-    {
-        if (!nearFarInteractor)
-        {
-            TryGetComponent(out nearFarInteractor);
-        }
+        interactable = null;
+        attributes = null;
+        if (!args.interactableObject.transform.TryGetComponent(out ClimbInteractable climbInteractable)) return false;
+        if (!climbInteractable.transform.TryGetComponent(out ClimbAttributes climbAttributes)) return false;
+        interactable = climbInteractable;
+        attributes = climbAttributes;
+        return true;
     }
 }
