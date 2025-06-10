@@ -36,6 +36,8 @@ public class GripsGeneration : MonoBehaviour
     [SerializeField]
     private GameObject[] temporaryGripPrefabs;
     [SerializeField]
+    private GameObject[] loreGripsPrefabs;
+    [SerializeField]
     private GameObject gripParent;
     [SerializeField]
     private GameObject[] miscellaneousPrefabs;
@@ -64,7 +66,8 @@ public class GripsGeneration : MonoBehaviour
         var endPositions = endingGrips.Where(g => g != null).Select(g => g.position).ToList();
 
         var random = new System.Random();
-        debugger.paths = new List<List<Vector3>>();
+        if (debugger.paths == null)
+            debugger.paths = new List<List<Vector3>>();
 
         foreach (var start in startPositions)
         {
@@ -91,39 +94,75 @@ public class GripsGeneration : MonoBehaviour
 
         foreach (var grip in filteredGrips)
         {
-            if (grip.NearPath && Random.value < 0.001f && miscellaneousPrefabs.Length > 0 && isSpawningTent)
+            // Elements outside the path (tents, backpacks, etc.)
+            if (
+                grip.NearPath &&
+                grip.position.y > 20f &&
+                Mathf.Abs(grip.normal.y) < 0.3f &&
+                Random.value < 0.001f &&
+                miscellaneousPrefabs.Length > 0 &&
+                isSpawningTent
+            )
             {
                 var misc = miscellaneousPrefabs[Random.Range(0, miscellaneousPrefabs.Length)];
-                Instantiate(misc, grip.position, misc.transform.rotation, this.transform);
+
+                Vector3 miscPosition = grip.position;
+
+                Quaternion miscRotation = misc.transform.rotation;
+
+                if (!misc.name.Contains("Stick"))
+                {
+                    float meshHalfHeight = 1f;
+
+                    float wallOffset = 0.5f;
+                    miscPosition = grip.position + grip.normal * wallOffset;
+
+                    miscRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, grip.normal), Vector3.up);
+                    if (Mathf.Abs(Vector3.Dot(grip.normal, Vector3.up)) > 0.99f)
+                        miscRotation = Quaternion.LookRotation(grip.normal, Vector3.forward);
+                    miscRotation *= Quaternion.Euler(0f, 180f, Random.Range(5f, 13f));
+                    miscPosition -= miscRotation * Vector3.up * meshHalfHeight;
+                }
+
+                Instantiate(misc, miscPosition, miscRotation, this.transform);
                 continue;
             }
 
+            // Grips
             float rand = Random.value;
-            GameObject prefab;
+            GameObject prefab = null;
 
             if (rand < 0.6f && standardGripPrefabs.Length > 0)
             {
                 prefab = standardGripPrefabs[Random.Range(0, standardGripPrefabs.Length)];
             }
-            else if (rand < 0.9f && technicalGripPrefabs.Length > 0)
+            else if (rand < 0.8f && technicalGripPrefabs.Length > 0)
             {
                 prefab = technicalGripPrefabs[Random.Range(0, technicalGripPrefabs.Length)];
             }
-            else if (temporaryGripPrefabs.Length > 0)
+            else if (rand < 0.95f && temporaryGripPrefabs.Length > 0)
             {
                 prefab = temporaryGripPrefabs[Random.Range(0, temporaryGripPrefabs.Length)];
             }
-            else
+            else if (loreGripsPrefabs.Length > 0)
             {
-                continue;
+                prefab = loreGripsPrefabs[Random.Range(0, loreGripsPrefabs.Length)];
             }
 
-            var position = grip.position;
-            Quaternion rotation = Quaternion.LookRotation(grip.normal) * Quaternion.Euler(
-                Random.Range(0f, 360f),
-                Random.Range(0f, 360f),
-                Random.Range(0f, 360f)
-            );
+            var position = grip.position + grip.normal * Random.Range(-0.6f, 0.1f);
+            Vector3 toCenter = (this.transform.position - grip.position).normalized;
+            var rotation = Quaternion.LookRotation(-toCenter, Vector3.up);
+
+            if (!prefab.tag.Contains("Climb"))
+            {
+                position = grip.position;
+                rotation = Quaternion.LookRotation(grip.normal) * Quaternion.Euler(
+                    Random.Range(0f, 360f),
+                    Random.Range(0f, 360f),
+                    Random.Range(0f, 360f)
+                );
+            }
+
             Instantiate(prefab, position, rotation, gripParent.transform);
         }
     }

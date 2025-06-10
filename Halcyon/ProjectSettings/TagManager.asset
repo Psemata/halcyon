@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - Climb1
+  - Climb2
+  - Climb3
+  - Climb4
+  - Climb5
   layers:
   - Default
   - TransparentFX
@@ -35,7 +40,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - MountainGround
   - Mountain
   - Character
   m_SortingLayers:
