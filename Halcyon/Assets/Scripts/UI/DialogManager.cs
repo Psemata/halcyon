@@ -50,6 +50,9 @@ public class DialogManager : MonoBehaviour
     private IEnumerator FadeInDialog()
     {
         string story = selectedStory.story;
+
+        BookManager.Instance.HandleNewLoreLine(selectedStory);
+
         float elapsed = 0f;
         canvasGroup.alpha = 0f;
 
@@ -105,7 +108,6 @@ public class DialogManager : MonoBehaviour
             }
         }
 
-        GameManager.Instance.AddLoreLine(selectedStory.story);
         yield return new WaitForSeconds(5f); // Pause finale avant de cacher la boxe
         StartCoroutine(FadeOutDialog());
     }

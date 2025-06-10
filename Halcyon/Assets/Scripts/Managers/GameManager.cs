@@ -16,10 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip[] breathingClips;
     [SerializeField] private AudioClip[] breathingColdClips;
 
-    private List<string> loreLines;
-
-    public event Action<List<string>> OnLoreLinesChanged;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -33,20 +29,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        this.loreLines = new List<string>();
         StartCoroutine(PlayRandomWindLoop());
         StartCoroutine(PlayRandomBirdsLoop());
         StartCoroutine(PlayRandomInstruments());
         StartCoroutine(PlayRandomBreathing());
-    }
-
-    public void AddLoreLine(string line)
-    {
-        if (!this.loreLines.Contains(line))
-        {
-            this.loreLines.Add(line);
-            OnLoreLinesChanged?.Invoke(this.loreLines);
-        }
     }
 
     private IEnumerator PlayRandomWindLoop()

@@ -518,6 +518,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 47093e535d1a349bdb5a3e50af56510b, type: 3}
   - {fileID: 8300000, guid: 7d43a7d519844456b876159bac5133e1, type: 3}
   - {fileID: 8300000, guid: 76cce83e9108c41fa801d376f8231b24, type: 3}
+  book: {fileID: 7321749316100052781, guid: fd1322f7074564d3789d3d15160a6967, type: 3}
 --- !u!114 &1039528902598064857
 MonoBehaviour:
   m_ObjectHideFlags: 0
